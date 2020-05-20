@@ -1,4 +1,4 @@
-package rollingcubes.state;
+package queen.state;
 
 import org.junit.jupiter.api.Test;
 

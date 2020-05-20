@@ -1,4 +1,4 @@
-package rollingcubes.state;
+package queen.state;
 
 /**
  * Enum representing the four cardinal directions.

@@ -14,9 +14,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import rollingcubes.results.GameResult;
-import rollingcubes.results.GameResultDao;
-import rollingcubes.state.RollingCubesState;
+import queen.results.GameResult;
+import queen.results.GameResultDao;
+import queen.state.RollingCubesState;
 
 import java.io.IOException;
 import java.time.Duration;

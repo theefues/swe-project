@@ -1,4 +1,4 @@
-package rollingcubes.results;
+package queen.results;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

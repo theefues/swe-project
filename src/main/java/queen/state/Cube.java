@@ -1,4 +1,4 @@
-package rollingcubes.state;
+package queen.state;
 
 /**
  * Class representing the empty space and the possible orientations of a cube.

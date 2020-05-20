@@ -1,4 +1,4 @@
-package rollingcubes.state;
+package queen.state;
 
 import lombok.AccessLevel;
 import lombok.Data;

@@ -41,7 +41,7 @@ create sequence hibernate_sequence start with 1 increment by 1 [90035-199]
 	at com.google.inject.Guice.createInjector(Guice.java:87)
 	at com.google.inject.Guice.createInjector(Guice.java:69)
 	at com.google.inject.Guice.createInjector(Guice.java:59)
-	at rollingcubes.results.GameResultTest.main(GameResultTest.java:12)
+	at queen.results.GameResultTest.main(GameResultTest.java:12)
 2019-05-05 13:18:56 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "GAMERESULT" already exists; SQL statement:
 
@@ -97,7 +97,7 @@ create sequence hibernate_sequence start with 1 increment by 1 [90035-199]
 	at com.google.inject.Guice.createInjector(Guice.java:87)
 	at com.google.inject.Guice.createInjector(Guice.java:69)
 	at com.google.inject.Guice.createInjector(Guice.java:59)
-	at rollingcubes.results.GameResultTest.main(GameResultTest.java:12)
+	at queen.results.GameResultTest.main(GameResultTest.java:12)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -159,7 +159,7 @@ create sequence hibernate_sequence start with 1 increment by 1 [90035-199]
 	at com.google.inject.Guice.createInjector(Guice.java:87)
 	at com.google.inject.Guice.createInjector(Guice.java:69)
 	at com.google.inject.Guice.createInjector(Guice.java:59)
-	at rollingcubes.results.GameResultTest.main(GameResultTest.java:12)
+	at queen.results.GameResultTest.main(GameResultTest.java:12)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -221,7 +221,7 @@ create sequence hibernate_sequence start with 1 increment by 1 [90035-199]
 	at com.google.inject.Guice.createInjector(Guice.java:87)
 	at com.google.inject.Guice.createInjector(Guice.java:69)
 	at com.google.inject.Guice.createInjector(Guice.java:59)
-	at rollingcubes.results.GameResultTest.main(GameResultTest.java:12)
+	at queen.results.GameResultTest.main(GameResultTest.java:12)
 2019-05-05 13:36:06 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "GAMERESULT" already exists; SQL statement:
 
@@ -277,7 +277,7 @@ create sequence hibernate_sequence start with 1 increment by 1 [90035-199]
 	at com.google.inject.Guice.createInjector(Guice.java:87)
 	at com.google.inject.Guice.createInjector(Guice.java:69)
 	at com.google.inject.Guice.createInjector(Guice.java:59)
-	at rollingcubes.results.GameResultTest.main(GameResultTest.java:12)
+	at queen.results.GameResultTest.main(GameResultTest.java:12)
 2019-05-05 13:36:41 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "GAMERESULT" already exists; SQL statement:
 
@@ -333,7 +333,7 @@ create sequence hibernate_sequence start with 1 increment by 1 [90035-199]
 	at com.google.inject.Guice.createInjector(Guice.java:87)
 	at com.google.inject.Guice.createInjector(Guice.java:69)
 	at com.google.inject.Guice.createInjector(Guice.java:59)
-	at rollingcubes.results.GameResultExample.main(GameResultExample.java:12)
+	at queen.results.GameResultExample.main(GameResultExample.java:12)
 2020-04-04 15:21:38 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "GAMERESULT" already exists; SQL statement:
 
