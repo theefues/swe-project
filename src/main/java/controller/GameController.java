@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import queen.results.GameResult;
 import queen.results.GameResultDao;
+import queen.state.Direction;
 import queen.state.Table;
 
 import java.io.IOException;
@@ -29,10 +30,14 @@ public class GameController {
 
     private Table gameTable;
     private String userName;
+    private String otherUserName;
     private int stepCount;
-    private Image queenImage;
+    private Image blueQueenImage;
+    private Image redQueenImage;
     private Image blankImage;
+    private Image availableImage;
     private Instant beginGame;
+    private int availableSteps;
 
     private GameResultDao gameResultDao;
 
@@ -51,34 +56,50 @@ public class GameController {
     @FXML
     private Button doneButton;
 
-
     private void drawGameState() {
         stepLabel.setText(String.valueOf(stepCount));
-
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+        availableSteps = 0;
+        int n = 8;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 ImageView view = (ImageView) gameGrid.getChildren().get(i * 8 + j);
-                if (gameTable.get(i, j) != 0) {
-                    view.setImage(queenImage);
+                int index = gameTable.get(i, j);
+                if (index != 0) {
+                    view.setImage(index == 1 ? blueQueenImage : redQueenImage);
                 } else {
-                    view.setImage(null);
+                    if (!gameTable.isSolved() && gameTable.canMoveQueenTo(i, j, gameTable.getCurrentIndex()) != Direction.NONE) {
+                        view.setImage(availableImage);
+                        availableSteps++;
+                    } else {
+                        view.setImage(blankImage);
+                    }
                 }
             }
         }
+
+        if (availableSteps == 0) {
+            log.warn("No avaliable steps, finishing game...");
+            showFinish();
+        }
     }
 
-    public void initdata(String userName) {
+    public void initdata(String userName, String otherUserName) {
         this.userName = userName;
-        usernameLabel.setText("Current user: " + this.userName);
+        this.otherUserName = otherUserName;
+        usernameLabel.setText("Current user: " + this.userName + " vs " + this.otherUserName);
     }
 
     @FXML
     public void initialize() {
         gameResultDao = GameResultDao.getInstance();
         gameTable = new Table(8);
+        gameTable.setCurrent(1);
         stepCount = 0;
         beginGame = Instant.now();
-        queenImage = new Image(getClass().getResource("/pictures/queen.png").toExternalForm());
+        blueQueenImage = new Image(getClass().getResource("/pictures/blue.png").toExternalForm());
+        redQueenImage = new Image(getClass().getResource("/pictures/red.png").toExternalForm());
+        blankImage = new Image(getClass().getResource("/pictures/blank.png").toExternalForm());
+        availableImage = new Image(getClass().getResource("/pictures/available.png").toExternalForm());
 
         drawGameState();
     }
@@ -87,24 +108,31 @@ public class GameController {
         int clickedColumn = GridPane.getColumnIndex((Node)mouseEvent.getSource());
         int clickedRow = GridPane.getRowIndex((Node)mouseEvent.getSource());
 
-        if (gameTable.tryMoveQueenTo(clickedRow, clickedColumn, 1)) {
+        log.info("Try click to {}-{}", clickedRow, clickedColumn);
+        if (gameTable.tryMoveQueenTo(clickedRow, clickedColumn, gameTable.getCurrentIndex())) {
             stepCount++;
 
-            /*
-            if (gameState.isSolved()) {
-                log.info("Player {} solved the game in {} steps.", userName, stepCount);
-                solvedLabel.setText("You solved the puzzle!");
-                doneButton.setText("Finish");
+            gameTable.setCurrent(gameTable.getCurrentIndex() == 1 ? 2 : 1);
 
-                gameResultDao.persist(getResult());
-            }*/
+            if (gameTable.isSolved()) {
+                showFinish();
+            }
         }
 
         drawGameState();
     }
 
+    private void showFinish() {
+        log.info("Player {} solved the game in {} steps.", userName, stepCount);
+        solvedLabel.setText((gameTable.getWinnerIndex() == 1 ? userName : otherUserName) + " solved the puzzle!");
+        doneButton.setText("Finish");
+
+        gameResultDao.persist(getResult());
+    }
+
     public void resetGame(ActionEvent actionEvent) {
         gameTable = new Table(8);
+        gameTable.setCurrent(1);
         stepCount = 0;
         solvedLabel.setText("");
         drawGameState();
@@ -116,7 +144,9 @@ public class GameController {
 
         GameResult result = GameResult.builder()
                                     .player(userName)
-                                    .solved(this.gameTable.get(7, 7) != 0)
+                                    .otherPlayer(otherUserName)
+                                    .winnerPlayer(gameTable.getWinnerIndex() == 1 ? userName : otherUserName)
+                                    .solved(this.gameTable.isSolved())
                                     .duration(Duration.between(beginGame, Instant.now()))
                                     .steps(stepCount)
                                     .build();
@@ -124,7 +154,7 @@ public class GameController {
     }
 
     public void finishGame(ActionEvent actionEvent) throws IOException {
-        if (this.gameTable.get(7, 7) == 0) {
+        if (this.gameTable.isSolved()) {
             gameResultDao.persist(getResult());
         }
 

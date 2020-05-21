@@ -15,10 +15,10 @@
             <Font name="MathJax_Main-Bold" size="36.0" />
          </font>
       </Label>
-      <Label layoutX="418.0" layoutY="69.0" text="Username:" />
-      <TextField fx:id="usernameTextfield" layoutX="418.0" layoutY="91.0" prefHeight="26.0" prefWidth="158.0" />
-      <Button fx:id="startButton" layoutX="445.0" layoutY="145.0" mnemonicParsing="false" onAction="#startAction" prefHeight="26.0" prefWidth="105.0" text="Start game" />
-      <Label fx:id="errorLabel" layoutX="422.0" layoutY="122.0" prefHeight="16.0" prefWidth="151.0" textFill="#e30e0e" />
+      <Label layoutX="419.0" layoutY="53.0" text="Player name:" />
+      <TextField fx:id="usernameTextfield" layoutX="419.0" layoutY="75.0" prefHeight="26.0" prefWidth="158.0" />
+      <Button fx:id="startButton" layoutX="445.0" layoutY="158.0" mnemonicParsing="false" onAction="#startAction" prefHeight="26.0" prefWidth="105.0" text="Start game" />
+      <Label fx:id="errorLabel" layoutX="422.0" layoutY="26.0" prefHeight="16.0" prefWidth="151.0" textFill="#e30e0e" />
       <ImageView fitHeight="309.0" fitWidth="305.0" layoutX="-5.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../pictures/queen.png" />
@@ -30,5 +30,7 @@
          </font>
       </Label>
       <Label layoutX="231.0" layoutY="235.0" text="The queen only can step to up, left or bottom left squares." />
+      <TextField fx:id="otherUserText" layoutX="418.0" layoutY="126.0" prefHeight="26.0" prefWidth="158.0" />
+      <Label layoutX="419.0" layoutY="104.0" text="Other player name:" />
    </children>
 </Pane>

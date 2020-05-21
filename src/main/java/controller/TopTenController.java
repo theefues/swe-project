@@ -34,6 +34,12 @@ public class TopTenController {
     private TableColumn<GameResult, String> player;
 
     @FXML
+    private TableColumn<GameResult, String> otherPlayer;
+
+    @FXML
+    private TableColumn<GameResult, String> winnerPlayer;
+
+    @FXML
     private TableColumn<GameResult, Integer> steps;
 
     @FXML
@@ -61,6 +67,8 @@ public class TopTenController {
         List<GameResult> toptenList = gameResultDao.findBest(10);
 
         player.setCellValueFactory(new PropertyValueFactory<>("player"));
+        otherPlayer.setCellValueFactory(new PropertyValueFactory<>("otherPlayer"));
+        winnerPlayer.setCellValueFactory(new PropertyValueFactory<>("winnerPlayer"));
         steps.setCellValueFactory(new PropertyValueFactory<>("steps"));
         duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         created.setCellValueFactory(new PropertyValueFactory<>("created"));

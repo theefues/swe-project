@@ -6,11 +6,13 @@ public class Table {
     private int n;
     private int[][] table;
     private Random rand;
+    private int currentIndex;
 
     public Table (int n) {
         this.n = n;
         this.table = new int[n][n];
         this.rand = new Random();
+        this.currentIndex = 0;
 
         this.addRandomQueen(1);
         this.addRandomQueen(2);
@@ -18,6 +20,26 @@ public class Table {
 
     public int get(int x, int y) {
         return this.table[x][y];
+    }
+
+    public void setCurrent(int index) {
+        this.currentIndex = index;
+    }
+
+    public int getCurrentIndex() {
+        return this.currentIndex;
+    }
+
+    public int getTableSize() {
+        return this.n;
+    }
+
+    public boolean isSolved() {
+        return this.table[0][this.n - 1] != 0;
+    }
+
+    public int getWinnerIndex() {
+        return (isSolved() ? get(0, getTableSize() - 1) : getCurrentIndex());
     }
 
     public void addRandomQueen(int index) {
@@ -34,34 +56,47 @@ public class Table {
         }
     }
 
-    public boolean tryMoveQueenTo(int x, int y, int index) {
-        if (y == 0) return false; // First row
-        if (x == n - 1) return false; // Last col
-
-        if (this.table[x][y] != 0) return false;
+    public Direction canMoveQueenTo(int x, int y, int index) {
+        if (this.table[x][y] != 0)
+            return Direction.NONE;
 
         // Try move left
-        if (this.table[x + 1][y] == index) {
-            this.table[x + 1][y] = 0;
-            this.table[x][y] = index;
-            return true;
-        }
+        if (y + 1 < this.n && this.table[x][y + 1] == index)
+            return Direction.LEFT;
 
         // Try move down
-        if (this.table[x][y - 1] == index) {
-            this.table[x][y - 1] = 0;
-            this.table[x][y] = index;
-            return true;
-        }
+        if (x > 0 && this.table[x - 1][y] == index)
+            return Direction.DOWN;
 
         // Try move one left and one down
-        if (this.table[x + 1][y - 1] == index) {
-            this.table[x + 1][y - 1] = 0;
-            this.table[x][y] = index;
-            return true;
+        if (y + 1 < this.n && x > 0 && this.table[x - 1][y + 1] == index)
+            return Direction.BOTH;
+
+        return Direction.NONE;
+    }
+
+    public boolean tryMoveQueenTo(int x, int y, int index) {
+        Direction dir = canMoveQueenTo(x, y, index);
+
+        if (dir == Direction.NONE)
+            return false;
+
+        switch (dir) {
+            case LEFT:
+                this.table[x][y + 1] = 0;
+                this.table[x][y] = index;
+                break;
+            case DOWN:
+                this.table[x - 1][y] = 0;
+                this.table[x][y] = index;
+                break;
+            case BOTH:
+                this.table[x - 1][y + 1] = 0;
+                this.table[x][y] = index;
+                break;
         }
 
-        return false;
+        return true;
     }
 
     public void printTable() {

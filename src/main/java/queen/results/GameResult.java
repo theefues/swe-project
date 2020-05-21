@@ -30,6 +30,18 @@ public class GameResult {
     private String player;
 
     /**
+     * The name of the other player.
+     */
+    @Column(nullable = false)
+    private String otherPlayer;
+
+    /**
+     * The name of the player who win the round.
+     */
+    @Column(nullable = false)
+    private String winnerPlayer;
+
+    /**
      * Indicates whether the player has solved the puzzle.
      */
     private boolean solved;
