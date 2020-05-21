@@ -22,6 +22,10 @@ public class Table {
         return this.table[x][y];
     }
 
+    public void set(int x, int y, int index) {
+        this.table[x][y] = index;
+    }
+
     public void setCurrent(int index) {
         this.currentIndex = index;
     }
@@ -35,7 +39,7 @@ public class Table {
     }
 
     public boolean isSolved() {
-        return this.table[0][this.n - 1] != 0;
+        return this.get(0, this.n - 1) != 0;
     }
 
     public int getWinnerIndex() {
