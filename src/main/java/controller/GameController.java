@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import queen.results.GameResult;
 import queen.results.GameResultDao;
-import queen.state.RollingCubesState;
+import queen.state.Table;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -27,10 +27,11 @@ import java.util.List;
 @Slf4j
 public class GameController {
 
-    private RollingCubesState gameState;
+    private Table gameTable;
     private String userName;
     private int stepCount;
-    private List<Image> cubeImages;
+    private Image queenImage;
+    private Image blankImage;
     private Instant beginGame;
 
     private GameResultDao gameResultDao;
@@ -54,10 +55,14 @@ public class GameController {
     private void drawGameState() {
         stepLabel.setText(String.valueOf(stepCount));
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                ImageView view = (ImageView) gameGrid.getChildren().get(i * 3 + j);
-                view.setImage(cubeImages.get(gameState.getTray()[i][j].getValue()));
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                ImageView view = (ImageView) gameGrid.getChildren().get(i * 8 + j);
+                if (gameTable.get(i, j) != 0) {
+                    view.setImage(queenImage);
+                } else {
+                    view.setImage(null);
+                }
             }
         }
     }
@@ -69,54 +74,37 @@ public class GameController {
 
     @FXML
     public void initialize() {
-
         gameResultDao = GameResultDao.getInstance();
-
-        gameState = new RollingCubesState();
-
+        gameTable = new Table(8);
         stepCount = 0;
-
         beginGame = Instant.now();
-
-        cubeImages = Arrays.asList(
-                new Image(getClass().getResource("/pictures/cube0.png").toExternalForm()),
-                new Image(getClass().getResource("/pictures/cube1.png").toExternalForm()),
-                new Image(getClass().getResource("/pictures/cube2.png").toExternalForm()),
-                new Image(getClass().getResource("/pictures/cube3.png").toExternalForm()),
-                new Image(getClass().getResource("/pictures/cube4.png").toExternalForm()),
-                new Image(getClass().getResource("/pictures/cube5.png").toExternalForm()),
-                new Image(getClass().getResource("/pictures/cube6.png").toExternalForm())
-        );
+        queenImage = new Image(getClass().getResource("/pictures/queen.png").toExternalForm());
 
         drawGameState();
     }
 
-
-
     public void cubeClick(MouseEvent mouseEvent) {
-
-
         int clickedColumn = GridPane.getColumnIndex((Node)mouseEvent.getSource());
         int clickedRow = GridPane.getRowIndex((Node)mouseEvent.getSource());
 
-        if (!gameState.isSolved() && gameState.canRollToEmptySpace(clickedRow, clickedColumn)) {
+        if (gameTable.tryMoveQueenTo(clickedRow, clickedColumn, 1)) {
             stepCount++;
-            gameState.rollToEmptySpace(clickedRow, clickedColumn);
 
+            /*
             if (gameState.isSolved()) {
                 log.info("Player {} solved the game in {} steps.", userName, stepCount);
                 solvedLabel.setText("You solved the puzzle!");
                 doneButton.setText("Finish");
 
                 gameResultDao.persist(getResult());
-            }
+            }*/
         }
 
         drawGameState();
     }
 
     public void resetGame(ActionEvent actionEvent) {
-        gameState = new RollingCubesState();
+        gameTable = new Table(8);
         stepCount = 0;
         solvedLabel.setText("");
         drawGameState();
@@ -128,7 +116,7 @@ public class GameController {
 
         GameResult result = GameResult.builder()
                                     .player(userName)
-                                    .solved(gameState.isSolved())
+                                    .solved(this.gameTable.get(7, 7) != 0)
                                     .duration(Duration.between(beginGame, Instant.now()))
                                     .steps(stepCount)
                                     .build();
@@ -136,7 +124,7 @@ public class GameController {
     }
 
     public void finishGame(ActionEvent actionEvent) throws IOException {
-        if (!gameState.isSolved()) {
+        if (this.gameTable.get(7, 7) == 0) {
             gameResultDao.persist(getResult());
         }
 
