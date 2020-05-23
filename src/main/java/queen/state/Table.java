@@ -39,7 +39,7 @@ public class Table {
     }
 
     public boolean isSolved() {
-        return this.get(0, this.n - 1) != 0;
+        return this.get(this.n - 1, 0) != 0;
     }
 
     public int getWinnerIndex() {
