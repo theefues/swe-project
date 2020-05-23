@@ -1,11 +1,11 @@
 package queen.state;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class TableTest {
+class TableTest {
 
     private boolean hasQueen(Table table, int index) {
         for (int i = 0; i < table.getTableSize(); i++)
@@ -16,7 +16,7 @@ public class TableTest {
     }
 
     @Test
-    public void testAddRandomQueen(){
+    void testAddRandomQueen(){
         Table table = new Table(8);
         table.addRandomQueen(1);
 
@@ -28,7 +28,7 @@ public class TableTest {
     }
 
     @Test
-    public void testCanMoveQueenTo() {
+    void testCanMoveQueenTo() {
         Table table = new Table(8);
         table.set(3, 7, 2);
 
@@ -39,21 +39,39 @@ public class TableTest {
     }
 
     @Test
-    public void testTryMoveQueenTo() {
+    void testTryMoveQueenTo() {
         Table table = new Table(8);
         table.set(0, 2, 1);
         table.set(3, 7, 2);
 
         assertTrue(table.tryMoveQueenTo(0, 1, 1));
-        assertTrue(table.get(0, 1) == 1);
-
         assertFalse(table.tryMoveQueenTo(0, 1, 1));
-        assertTrue(table.get(0, 1) == 1);
-
         assertTrue(table.tryMoveQueenTo(1, 1, 1));
-        assertTrue(table.get(1, 1) == 1);
-
         assertTrue(table.tryMoveQueenTo(2, 0, 1));
-        assertTrue(table.get(2, 0) == 1);
+    }
+
+    @Test
+    void testIsSolved() {
+        Table table = new Table(8);
+        table.set(0, 7, 1);
+
+        assertTrue(table.isSolved());
+    }
+
+    @Test
+    void testWinnerIndex() {
+        Table table = new Table(8);
+        table.set(0, 7, 1);
+
+        assertTrue(table.getWinnerIndex() == 1);
+    }
+
+    @Test
+    void testCurrentIndex() {
+        Table table = new Table(8);
+        table.setCurrent(1);
+
+        assertTrue(table.getCurrentIndex() == 1);
+        assertFalse(table.getCurrentIndex() == 2);
     }
 }

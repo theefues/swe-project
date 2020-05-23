@@ -38,6 +38,7 @@ public class GameController {
     private Image availableImage;
     private Instant beginGame;
     private int availableSteps;
+    private boolean hasFinished;
 
     private GameResultDao gameResultDao;
 
@@ -77,7 +78,7 @@ public class GameController {
             }
         }
 
-        if (availableSteps == 0) {
+        if (availableSteps == 0 && stepCount > 0) {
             log.warn("No avaliable steps, finishing game...");
             showFinish();
         }
@@ -92,16 +93,12 @@ public class GameController {
     @FXML
     public void initialize() {
         gameResultDao = GameResultDao.getInstance();
-        gameTable = new Table(8);
-        gameTable.setCurrent(1);
-        stepCount = 0;
-        beginGame = Instant.now();
         blueQueenImage = new Image(getClass().getResource("/pictures/blue.png").toExternalForm());
         redQueenImage = new Image(getClass().getResource("/pictures/red.png").toExternalForm());
         blankImage = new Image(getClass().getResource("/pictures/blank.png").toExternalForm());
         availableImage = new Image(getClass().getResource("/pictures/available.png").toExternalForm());
 
-        drawGameState();
+        resetGame(null);
     }
 
     public void cubeClick(MouseEvent mouseEvent) {
@@ -126,14 +123,14 @@ public class GameController {
         log.info("Player {} solved the game in {} steps.", userName, stepCount);
         solvedLabel.setText((gameTable.getWinnerIndex() == 1 ? userName : otherUserName) + " solved the puzzle!");
         doneButton.setText("Finish");
-
-        gameResultDao.persist(getResult());
+        hasFinished = true;
     }
 
     public void resetGame(ActionEvent actionEvent) {
         gameTable = new Table(8);
         gameTable.setCurrent(1);
         stepCount = 0;
+        hasFinished = false;
         solvedLabel.setText("");
         drawGameState();
         beginGame = Instant.now();
@@ -141,12 +138,11 @@ public class GameController {
     }
 
     private GameResult getResult() {
-
         GameResult result = GameResult.builder()
                                     .player(userName)
                                     .otherPlayer(otherUserName)
                                     .winnerPlayer(gameTable.getWinnerIndex() == 1 ? userName : otherUserName)
-                                    .solved(this.gameTable.isSolved())
+                                    .solved(hasFinished)
                                     .duration(Duration.between(beginGame, Instant.now()))
                                     .steps(stepCount)
                                     .build();
@@ -154,9 +150,7 @@ public class GameController {
     }
 
     public void finishGame(ActionEvent actionEvent) throws IOException {
-        if (this.gameTable.isSolved()) {
-            gameResultDao.persist(getResult());
-        }
+        gameResultDao.persist(getResult());
 
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/topten.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();

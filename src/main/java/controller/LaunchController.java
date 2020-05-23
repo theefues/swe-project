@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import queen.results.GameResultDao;
 
 import java.io.IOException;
 
@@ -24,6 +25,11 @@ public class LaunchController {
 
     @FXML
     private Label errorLabel;
+
+    @FXML
+    public void initialize() {
+        GameResultDao.getInstance();
+    }
 
     public void startAction(ActionEvent actionEvent) throws IOException {
         if (usernameTextfield.getText().isEmpty()) {
