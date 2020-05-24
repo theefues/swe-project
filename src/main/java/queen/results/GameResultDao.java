@@ -18,7 +18,7 @@ public class GameResultDao extends GenericJpaDao<GameResult> {
 
     /**
      * Returns a game result instance.
-     * @return
+     * @return Instance
      */
     public static GameResultDao getInstance() {
         if (instance == null) {

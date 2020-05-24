@@ -25,6 +25,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Slf4j
+/**
+ * Controller class for result screen.
+ */
 public class TopTenController {
 
     @FXML
@@ -52,8 +55,8 @@ public class TopTenController {
 
     /**
      * Go back to the main menu.
-     * @param actionEvent
-     * @throws IOException
+     * @param actionEvent Event of the action
+     * @throws IOException Error if file not found
      */
     public void back(ActionEvent actionEvent) throws IOException {
 

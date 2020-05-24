@@ -14,7 +14,11 @@ import queen.results.GameResultDao;
 
 import java.io.IOException;
 
+
 @Slf4j
+/**
+ * Controller class for the launch screen.
+ */
 public class LaunchController {
 
     @FXML
@@ -33,8 +37,8 @@ public class LaunchController {
 
     /**
      * Start the game and check if all the usernames are set.
-     * @param actionEvent
-     * @throws IOException
+     * @param actionEvent Event of the action
+     * @throws IOException Error if file not found
      */
     public void startAction(ActionEvent actionEvent) throws IOException {
         if (usernameTextfield.getText().isEmpty()) {

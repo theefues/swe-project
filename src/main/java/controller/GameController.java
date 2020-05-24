@@ -25,7 +25,11 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
+
 @Slf4j
+/**
+ * Controller class for the game.
+ */
 public class GameController {
 
     private Table gameTable;
@@ -115,7 +119,7 @@ public class GameController {
 
     /**
      * What to do when mouse is clicked.
-     * @param mouseEvent
+     * @param mouseEvent Event of the mouse
      */
     public void cubeClick(MouseEvent mouseEvent) {
         int clickedColumn = GridPane.getColumnIndex((Node)mouseEvent.getSource());
@@ -147,10 +151,10 @@ public class GameController {
 
     /**
      * Reset the game state.
-     * @param actionEvent
+     * @param actionEvent Event of the action
      */
     public void resetGame(ActionEvent actionEvent) {
-        gameTable = new Table(8);
+        gameTable = new Table(8, 2);
         gameTable.setCurrent(1);
         stepCount = 0;
         hasFinished = false;
@@ -178,8 +182,8 @@ public class GameController {
 
     /**
      * Finish the game and display the scoreboard when the Finish button pressed.
-     * @param actionEvent
-     * @throws IOException
+     * @param actionEvent Event of the action
+     * @throws IOException Exception if file not found
      */
     public void finishGame(ActionEvent actionEvent) throws IOException {
         gameResultDao.persist(getResult());

@@ -6,14 +6,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class TableTest {
+/**
+ * Test class for the Queen game
+ */
+public class TableTest {
 
-    /**
-     * Check if table has queen.
-     * @param table
-     * @param index
-     * @return
-     */
     private boolean hasQueen(Table table, int index) {
         for (int i = 0; i < table.getTableSize(); i++)
             for (int j = 0; j < table.getTableSize(); j++)
@@ -24,7 +21,7 @@ class TableTest {
 
     @Test
     void testAddRandomQueen(){
-        Table table = new Table(8);
+        Table table = new Table(8, 0);
         table.addRandomQueen(1);
 
         assertTrue(hasQueen(table, 1));
@@ -36,7 +33,7 @@ class TableTest {
 
     @Test
     void testCanMoveQueenTo() {
-        Table table = new Table(8);
+        Table table = new Table(8, 0);
         table.set(3, 7, 2);
 
         assertTrue(table.canMoveQueenTo(3, 6, 2) == Direction.LEFT);
@@ -47,9 +44,8 @@ class TableTest {
 
     @Test
     void testTryMoveQueenTo() {
-        Table table = new Table(8);
+        Table table = new Table(8, 0);
         table.set(0, 2, 1);
-        table.set(3, 7, 2);
 
         assertTrue(table.tryMoveQueenTo(0, 1, 1));
         assertFalse(table.tryMoveQueenTo(0, 1, 1));
@@ -59,7 +55,7 @@ class TableTest {
 
     @Test
     void testIsSolved() {
-        Table table = new Table(8);
+        Table table = new Table(8, 0);
         table.set(7, 0, 1);
 
         assertTrue(table.isSolved());
@@ -67,7 +63,7 @@ class TableTest {
 
     @Test
     void testWinnerIndex() {
-        Table table = new Table(8);
+        Table table = new Table(8, 0);
         table.set(7, 0, 1);
 
         assertEquals(1, table.getWinnerIndex());
@@ -75,7 +71,7 @@ class TableTest {
 
     @Test
     void testCurrentIndex() {
-        Table table = new Table(8);
+        Table table = new Table(8, 0);
         table.setCurrent(1);
 
         assertTrue(table.getCurrentIndex() == 1);

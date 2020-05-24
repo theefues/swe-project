@@ -2,6 +2,9 @@ package queen.state;
 
 import java.util.Random;
 
+/**
+ * Class for the core Queen game itself.
+ */
 public class Table {
     private int n;
     private int[][] table;
@@ -11,15 +14,16 @@ public class Table {
     /**
      * Create table and add 2 random Queens to the board.
      * @param n Height and width of the grid
+     * @param queens Number of queens
      */
-    public Table (int n) {
+    public Table (int n, int queens) {
         this.n = n;
         this.table = new int[n][n];
         this.rand = new Random();
         this.currentIndex = 0;
 
-        this.addRandomQueen(1);
-        this.addRandomQueen(2);
+        for (int i = 0; i < queens; i++)
+            this.addRandomQueen(i + 1);
     }
 
     /**
@@ -36,7 +40,7 @@ public class Table {
      * Sets the table's data from x and y coordinates.
      * @param x X coordinate of the desired item
      * @param y Y coordinate of the desired item
-     * @return Desired item
+     * @param index Index of queen
      */
     public void set(int x, int y, int index) {
         this.table[x][y] = index;
@@ -67,7 +71,7 @@ public class Table {
 
     /**
      * Check if the bottom left grid contains a queen or not
-     * @return
+     * @return Boolean
      */
     public boolean isSolved() {
         return this.get(this.n - 1, 0) != 0;

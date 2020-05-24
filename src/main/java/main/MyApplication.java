@@ -6,11 +6,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Class for display application.
+ */
 public class MyApplication extends Application {
     /**
      * Set application properties such as title and launch screen.
-     * @param primaryStage
-     * @throws Exception
+     * @param primaryStage Displayed game stage
+     * @throws Exception Error if file not found
      */
     @Override
     public void start(Stage primaryStage) throws Exception{
