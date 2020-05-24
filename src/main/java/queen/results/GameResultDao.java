@@ -16,6 +16,10 @@ public class GameResultDao extends GenericJpaDao<GameResult> {
         super(GameResult.class);
     }
 
+    /**
+     * Returns a game result instance.
+     * @return
+     */
     public static GameResultDao getInstance() {
         if (instance == null) {
             instance = new GameResultDao();

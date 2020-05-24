@@ -7,6 +7,12 @@ import static org.junit.Assert.assertTrue;
 
 class TableTest {
 
+    /**
+     * Check if table has queen.
+     * @param table
+     * @param index
+     * @return
+     */
     private boolean hasQueen(Table table, int index) {
         for (int i = 0; i < table.getTableSize(); i++)
             for (int j = 0; j < table.getTableSize(); j++)

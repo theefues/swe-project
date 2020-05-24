@@ -57,13 +57,17 @@ public class GameController {
     @FXML
     private Button doneButton;
 
+    /**
+     * Drawing the game's table's base. Put to a white square to every field in a NxN grid.
+     * Default value is 8.
+     */
     private void drawGameState() {
         stepLabel.setText(String.valueOf(stepCount));
         availableSteps = 0;
         int n = 8;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                ImageView view = (ImageView) gameGrid.getChildren().get(i * 8 + j);
+                ImageView view = (ImageView) gameGrid.getChildren().get(i * n + j);
                 int index = gameTable.get(i, j);
                 if (index != 0) {
                     view.setImage(index == 1 ? blueQueenImage : redQueenImage);
@@ -84,12 +88,20 @@ public class GameController {
         }
     }
 
+    /**
+     * Initialize the usernames with the given strings.
+     * @param userName Name of the first player
+     * @param otherUserName Name of the second player
+     */
     public void initdata(String userName, String otherUserName) {
         this.userName = userName;
         this.otherUserName = otherUserName;
         usernameLabel.setText("Current user: " + this.userName + " vs " + this.otherUserName);
     }
 
+    /**
+     * Get the images for blank square, red and blue queen pieces, green square.
+     */
     @FXML
     public void initialize() {
         gameResultDao = GameResultDao.getInstance();
@@ -101,6 +113,10 @@ public class GameController {
         resetGame(null);
     }
 
+    /**
+     * What to do when mouse is clicked.
+     * @param mouseEvent
+     */
     public void cubeClick(MouseEvent mouseEvent) {
         int clickedColumn = GridPane.getColumnIndex((Node)mouseEvent.getSource());
         int clickedRow = GridPane.getRowIndex((Node)mouseEvent.getSource());
@@ -109,7 +125,7 @@ public class GameController {
         if (gameTable.tryMoveQueenTo(clickedRow, clickedColumn, gameTable.getCurrentIndex())) {
             stepCount++;
 
-            gameTable.setCurrent(gameTable.getCurrentIndex() == 1 ? 2 : 1);
+            gameTable.setCurrent(gameTable.getCurrentIndex() == 1 ? 2 : 1); //Change users
 
             if (gameTable.isSolved()) {
                 showFinish();
@@ -119,6 +135,9 @@ public class GameController {
         drawGameState();
     }
 
+    /**
+     * Show winner message on screen and in log.
+     */
     private void showFinish() {
         log.info("Player {} solved the game in {} steps.", userName, stepCount);
         solvedLabel.setText((gameTable.getWinnerIndex() == 1 ? userName : otherUserName) + " solved the puzzle!");
@@ -126,6 +145,10 @@ public class GameController {
         hasFinished = true;
     }
 
+    /**
+     * Reset the game state.
+     * @param actionEvent
+     */
     public void resetGame(ActionEvent actionEvent) {
         gameTable = new Table(8);
         gameTable.setCurrent(1);
@@ -137,6 +160,10 @@ public class GameController {
         log.info("Game reset.");
     }
 
+    /**
+     * Build the game results with Lombok.
+     * @return Builded game result
+     */
     private GameResult getResult() {
         GameResult result = GameResult.builder()
                                     .player(userName)
@@ -149,6 +176,11 @@ public class GameController {
         return result;
     }
 
+    /**
+     * Finish the game and display the scoreboard when the Finish button pressed.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void finishGame(ActionEvent actionEvent) throws IOException {
         gameResultDao.persist(getResult());
 

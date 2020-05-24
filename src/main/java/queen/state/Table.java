@@ -8,6 +8,10 @@ public class Table {
     private Random rand;
     private int currentIndex;
 
+    /**
+     * Create table and add 2 random Queens to the board.
+     * @param n Height and width of the grid
+     */
     public Table (int n) {
         this.n = n;
         this.table = new int[n][n];
@@ -18,34 +22,69 @@ public class Table {
         this.addRandomQueen(2);
     }
 
+    /**
+     * Returns the table's data from x and y coordinates.
+     * @param x X coordinate of the desired item
+     * @param y Y coordinate of the desired item
+     * @return Desired item
+     */
     public int get(int x, int y) {
         return this.table[x][y];
     }
 
+    /**
+     * Sets the table's data from x and y coordinates.
+     * @param x X coordinate of the desired item
+     * @param y Y coordinate of the desired item
+     * @return Desired item
+     */
     public void set(int x, int y, int index) {
         this.table[x][y] = index;
     }
 
+    /**
+     * Sets the given queen's id.
+     * @param index ID for the queen
+     */
     public void setCurrent(int index) {
         this.currentIndex = index;
     }
-
+    /**
+     * Gets current queen's id.
+     * @return ID of the current queen
+     */
     public int getCurrentIndex() {
         return this.currentIndex;
     }
 
+    /**
+     * Returns table size
+     * @return Table size
+     */
     public int getTableSize() {
         return this.n;
     }
 
+    /**
+     * Check if the bottom left grid contains a queen or not
+     * @return
+     */
     public boolean isSolved() {
         return this.get(this.n - 1, 0) != 0;
     }
 
+    /**
+     * Get the index of the winner queen.
+     * @return ID of the queen
+     */
     public int getWinnerIndex() {
         return (isSolved() ? get(0, getTableSize() - 1) : getCurrentIndex());
     }
 
+    /**
+     * Add queen to a random position.
+     * @param index ID of the queen
+     */
     public void addRandomQueen(int index) {
         int x = this.rand.nextInt(this.n);
         boolean side = this.rand.nextInt(2) == 1;
@@ -60,6 +99,13 @@ public class Table {
         }
     }
 
+    /**
+     * Check if queen can move to the given field.
+     * @param x X coordinate of the field
+     * @param y Y coordinate of the field
+     * @param index ID of the queen
+     * @return Direction
+     */
     public Direction canMoveQueenTo(int x, int y, int index) {
         if (this.table[x][y] != 0)
             return Direction.NONE;
@@ -79,6 +125,13 @@ public class Table {
         return Direction.NONE;
     }
 
+    /**
+     * Try to move queen to the given field.
+     * @param x X coordinate of the field
+     * @param y Y coordinate of the field
+     * @param index ID of the queen
+     * @return Boolean depends on the queen can be moved or not
+     */
     public boolean tryMoveQueenTo(int x, int y, int index) {
         Direction dir = canMoveQueenTo(x, y, index);
 

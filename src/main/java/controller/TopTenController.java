@@ -50,6 +50,11 @@ public class TopTenController {
 
     private GameResultDao gameResultDao;
 
+    /**
+     * Go back to the main menu.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void back(ActionEvent actionEvent) throws IOException {
 
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/launch.fxml"));
@@ -59,13 +64,16 @@ public class TopTenController {
         log.info("Loading launch scene.");
     }
 
-
+    /**
+     * Initialize all the variables and store them in a property for display.
+      */
     @FXML
     public void initialize() {
         gameResultDao = GameResultDao.getInstance();
 
         List<GameResult> toptenList = gameResultDao.findBest(10);
 
+        //Set cell informations from GameResult class
         player.setCellValueFactory(new PropertyValueFactory<>("player"));
         otherPlayer.setCellValueFactory(new PropertyValueFactory<>("otherPlayer"));
         winnerPlayer.setCellValueFactory(new PropertyValueFactory<>("winnerPlayer"));

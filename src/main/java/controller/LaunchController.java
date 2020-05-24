@@ -31,6 +31,11 @@ public class LaunchController {
         GameResultDao.getInstance();
     }
 
+    /**
+     * Start the game and check if all the usernames are set.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void startAction(ActionEvent actionEvent) throws IOException {
         if (usernameTextfield.getText().isEmpty()) {
             errorLabel.setText("* User name is empty!");
