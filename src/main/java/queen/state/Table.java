@@ -78,7 +78,7 @@ public class Table {
      * @return ID of the queen
      */
     public int getWinnerIndex() {
-        return (isSolved() ? get(0, getTableSize() - 1) : getCurrentIndex());
+        return (isSolved() ? get(getTableSize() - 1, 0) : getCurrentIndex());
     }
 
     /**

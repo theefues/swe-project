@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TableTest {
 
@@ -59,7 +60,7 @@ class TableTest {
     @Test
     void testIsSolved() {
         Table table = new Table(8);
-        table.set(0, 7, 1);
+        table.set(7, 0, 1);
 
         assertTrue(table.isSolved());
     }
@@ -67,9 +68,9 @@ class TableTest {
     @Test
     void testWinnerIndex() {
         Table table = new Table(8);
-        table.set(0, 7, 1);
+        table.set(7, 0, 1);
 
-        assertTrue(table.getWinnerIndex() == 1);
+        assertEquals(1, table.getWinnerIndex());
     }
 
     @Test
