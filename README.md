@@ -1,9 +1,9 @@
-# rolling-cubes
-Example project for Software Engineering class.
+# Queen
+Assignment for Software Engineering course.
 
 &nbsp;
 
-Created on Linux, using Java 11.
+Created on Windows, using Java 11.
 
 &nbsp;
 
@@ -11,7 +11,7 @@ Run with the following commands, from the project's root directory:
 
 * mvn package
 
-* java -jar ./target/rolling-cubes-1.0.jar
+* java -jar ./target/queen-1.0.jar
 
 &nbsp;
 
@@ -19,6 +19,4 @@ Run with the following commands, from the project's root directory:
 
 Developers:
 
--Dr. Péter Jeszenszky
-
--Roland Major
+- Máté Veress
